@@ -18,36 +18,43 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 @Entity
-@Table(name="comptes")
-@Inheritance(strategy=InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name="compteType", 
-					discriminatorType=DiscriminatorType.STRING, length=3)
-public class Compte implements Serializable{
-	
+@Table(name = "comptes")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "compteType", discriminatorType = DiscriminatorType.STRING, length = 3)
+public class Compte implements Serializable {
+
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="num")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "num")
 	private Long numCompte;
-	
+
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	@Temporal(TemporalType.DATE)
-	@Column(name="date_creation")
+	@Column(name = "date_creation")
 	private Date dateCreation;
-	
-	@Column(name="solde")
+
+	@Column(name = "solde")
 	private double solde;
-	
+
 	@ManyToOne
-	@JoinColumn(name="client_id")
+	@JoinColumn(name = "client_id")
 	private Client client;
-	
-	public Compte() {}
-	
+
+	@ManyToOne
+	@JoinColumn(name = "employe_id")
+	private Employe employe;
+
+	public Compte() {
+	}
+
 	public Compte(Date dateCreation, double solde) {
 		this.dateCreation = dateCreation;
 		this.solde = solde;
 	}
-	
+
 	public Client getClient() {
 		return client;
 	}
@@ -56,7 +63,7 @@ public class Compte implements Serializable{
 		this.client = client;
 		this.client.ajouterCompte(this);
 	}
-	
+
 	public Long getNumCompte() {
 		return numCompte;
 	}
@@ -80,8 +87,13 @@ public class Compte implements Serializable{
 	public void setSolde(double solde) {
 		this.solde = solde;
 	}
-	
-	
+
+	public Employe getEmploye() {
+		return employe;
+	}
+
+	public void setEmploye(Employe employe) {
+		this.employe = employe;
+	}
 
 }
-		

@@ -7,6 +7,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -46,7 +47,7 @@ public class Employe implements Serializable {
 	@JoinColumn(name="superieur_id",nullable=true)
 	private Employe employeSuperieur;
 	
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name="employe_groupe",
 				joinColumns=@JoinColumn(name="employe_id"),
 				inverseJoinColumns=@JoinColumn(name="groupe_id"))
@@ -109,6 +110,13 @@ public class Employe implements Serializable {
 	
 	public String toString() {
 		return "Id: " + this.idEmploye + " | Nom: " + this.nomEmploye;
+	}
+	
+	public void ajouterGroupe(Groupe groupe) {
+		if( this.groupes == null ) {
+			this.groupes = new ArrayList<>();
+		}
+		this.groupes.add(groupe);
 	}
 	
 	public void ajouterOperation(Operation operation) {

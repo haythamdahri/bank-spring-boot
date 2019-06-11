@@ -3,8 +3,10 @@ package fsk.formations.gl.entities;
 import java.util.Date;
 
 import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
 
 @DiscriminatorValue("cc")
+@Entity
 public class CompteCourant extends Compte {
 	
 	private double decouvert;
