@@ -14,7 +14,7 @@
 
 	<div class="container mt-5">
 		<h1 class="display-4">
-			<i class="fas fa-list"></i> Liste des comptes
+			<i class="far fa-user"></i> Liste des comptes
 		</h1>
 
 
@@ -35,7 +35,7 @@
 						<th scope="row">${compte.numCompte}</th>
 						<td>${compte.dateCreation}</td>
 						<td>${compte.solde}</td>
-						<td><a href="/clients?id=${compte.client.idClient}">${compte.client}</a></td>
+						<td><a href="/comptes?client=${compte.client.idClient}">${compte.client}</a></td>
 						<td><a href="/comptes?employe=${compte.employe.idEmploye}">${compte.employe}</a></td>
 						<td><a href="/comptes?id=${compte.numCompte}"><button
 									class="btn btn-info btn-sm">
@@ -57,28 +57,39 @@
 				</c:forEach>
 				<c:if test="${comptes == null || comptes.size() == 0}">
 					<tr>
-						<td colspan="7" class="alert alert-warning text-center"><i
-							class="fas fa-exclamation"></i> Aucun compte n'a été trouvé</td>
+						<td colspan="7" class="alert alert-warning text-center font-weight-bold"><i
+							class="fas fa-exclamation"></i> Aucun employe n'a été trouvé</td>
 					</tr>
 				</c:if>
 			</tbody>
 		</table>
 
 		<hr>
+		
+		<c:if test="${compte.numCompte != null}">
+			<h5 class="text-center">
+				<i class="fas fa-edit"></i> Modification
+			</h5>
+		</c:if>
+		<c:if test="${compte.numCompte == null}">
+			<h5 class="text-center">
+				<i class="fas fa-external-link-alt"></i> Ajout
+			</h5>
+		</c:if>
 
 		<form:form method="POST" modelAttribute="compte">
 			<form:input path="numCompte" type="hidden" />
 			<div class="form-group">
 				<form:label path="dateCreation">Date de création: </form:label>
-				<form:input type="date" class="form-control" path="dateCreation" />
+				<form:input required="true"  type="date" class="form-control" path="dateCreation" />
 			</div>
 			<div class="form-group">
 				<form:label path="solde">Solde: </form:label>
-				<form:input type="number" class="form-control" path="solde" />
+				<form:input required="true"  type="number" class="form-control" path="solde" />
 			</div>
 			<div class="form-group">
 				<form:label path="client">Client: </form:label>
-				<form:select path="client" class="form-control">
+				<form:select required="true"  path="client" class="form-control">
 					<c:forEach var="client" items="${clients}">
 						<option value="${client.key}" <c:if test="${client.key == compte.client.idClient}"> selected </c:if>>${client.value}</option>
 					</c:forEach>
@@ -87,7 +98,7 @@
 
 			<div class="form-group">
 				<form:label path="employe">Employe: </form:label>
-				<form:select path="employe" class="form-control">
+				<form:select required="true"  path="employe" class="form-control">
 					<c:forEach var="employe" items="${employes}">
 						<option value="${employe.key}" <c:if test="${employe.key == compte.employe.idEmploye}"> selected </c:if>>${employe.value}</option>
 					</c:forEach>
@@ -95,7 +106,7 @@
 			</div>
 
 			<div class="form-group">
-				<label>Type compte: </label> <select name="typeCompte"
+				<label>Type compte: </label> <select required="true"  name="typeCompte"
 					class="form-control">
 					<c:forEach var="typeCompte" items="${typeComptes}">
 						<option value="${typeCompte}" <c:if test="${typeCompte == compteType}"> selected </c:if>>${typeCompte}</option>
@@ -104,13 +115,13 @@
 			</div>
 
 			<div class="form-group">
-				<label>Intérêts(Pour compte épargne): </label> <input type="number"
+				<label>Intérêts(Pour compte épargne): </label> <input required="true"  type="number"
 					value="${isEpargne != null ? compte.interet : 0}"
 					class="form-control" name="interet" placeholder="Intérêts..." />
 			</div>
 
 			<div class="form-group">
-				<label>Découverts(Pour compte courant): </label> <input
+				<label>Découverts(Pour compte courant): </label> <input required="true" 
 					type="number" value="${isCourant != null ? compte.decouvert : 0}"
 					class="form-control" name="decouvert" placeholder="Découverts...." />
 			</div>

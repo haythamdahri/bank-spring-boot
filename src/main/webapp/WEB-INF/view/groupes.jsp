@@ -25,6 +25,7 @@
 				<tr align="center">
 					<th scope="col">#</th>
 					<th scope="col">Nom</th>
+					<th scope="col">Employes</th>
 					<th scope="col" colspan="2">Actions</th>
 				</tr>
 			</thead>
@@ -33,6 +34,8 @@
 					<tr align="center">
 						<th scope="row">${groupe.idGroupe}</th>
 						<td>${groupe.nomGroupe}</td>
+						<td><a href="/employes?groupe=${groupe.idGroupe}">Liste
+								des employés</a></td>
 						<td><a href="/groupes?id=${groupe.idGroupe}"><button
 									class="btn btn-info btn-sm">
 									<i class="fas fa-edit"></i> Modifier
@@ -50,16 +53,36 @@
 						</td>
 					</tr>
 				</c:forEach>
+
+				<c:if test="${groupes == null || groupes.size() == 0}">
+					<tr>
+						<td colspan="4"
+							class="alert alert-warning text-center font-weight-bold"><i
+							class="fas fa-exclamation"></i> Aucun groupe n'a été trouvé</td>
+					</tr>
+				</c:if>
+
 			</tbody>
 		</table>
 
 		<hr>
 
+		<c:if test="${groupe.idGroupe != null}">
+			<h5 class="text-center">
+				<i class="fas fa-edit"></i> Modification
+			</h5>
+		</c:if>
+		<c:if test="${groupe.idGroupe == null}">
+			<h5 class="text-center">
+				<i class="fas fa-external-link-alt"></i> Ajout
+			</h5>
+		</c:if>
+
 		<form:form method="POST" modelAttribute="groupe">
 			<div class="form-group">
 				<form:input path="idGroupe" type="hidden" />
 				<form:label path="nomGroupe">Nom Groupe: </form:label>
-				<form:input type="text" class="form-control" path="nomGroupe"
+				<form:input required="true" type="text" class="form-control" path="nomGroupe"
 					placeholder="Saisir le nom du groupe..." />
 			</div>
 			<button type="submit" class="btn btn-primary">

@@ -12,5 +12,7 @@ import fsk.formations.gl.entities.Compte;
 public interface CompteRepository extends JpaRepository<Compte, Long> {
 
 	public Collection<Compte> findByEmployeIdEmploye(@Param("idEmploye") Long idEmploye);
+	
+	public Collection<Compte> findByClientIdClient(@Param("idClient") Long idClient);
 
 }

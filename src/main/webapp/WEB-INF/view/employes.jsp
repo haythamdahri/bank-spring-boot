@@ -25,6 +25,7 @@
 				<tr align="center">
 					<th scope="col">#</th>
 					<th scope="col">Nom</th>
+					<th scope="col">Comptes crées</th>
 					<th scope="col">Groupes</th>
 					<th scope="col" colspan="4">Actions</th>
 				</tr>
@@ -34,9 +35,10 @@
 					<tr align="center">
 						<th scope="row">${employe.idEmploye}</th>
 						<td>${employe.nomEmploye}</td>
+						<td><a href="/comptes?employe=${employe.idEmploye}">Liste des comptes</a></td>
 						<td><c:forEach var="groupe" items="${employe.groupes}"
 								varStatus="status">
-								<a href="/groupes?id=${groupe.idGroupe}">${groupe.nomGroupe}</a>
+								<a href="/employes?groupe=${groupe.idGroupe}">${groupe.nomGroupe}</a>
 								<c:if test="${!status.last}">,</c:if>
 							</c:forEach> <c:if
 								test="${employe.groupes == null || employe.groupes.size() == 0}">
@@ -99,7 +101,7 @@
 							<form
 								onsubmit="return confirm('êtes-vous sûre de supprimer l\'employe?')"
 								method="POST" action="/employes">
-								<input type="hidden" name="deleteEmploye"
+								<input required type="hidden" name="deleteEmploye"
 									value="${employe.idEmploye}" />
 								<button type="submit" class="btn btn-danger btn-sm">
 									<i class="far fa-trash-alt"></i> Supprimer
@@ -108,16 +110,34 @@
 						</td>
 					</tr>
 				</c:forEach>
+				
+				<c:if test="${employes == null || employes.size() == 0}">
+					<tr>
+						<td colspan="8" class="alert alert-warning text-center font-weight-bold"><i
+							class="fas fa-exclamation"></i> Aucun client n'a été trouvé</td>
+					</tr>
+				</c:if>
 			</tbody>
 		</table>
 
 		<hr>
+		
+		<c:if test="${employe.idEmploye != null}">
+			<h5 class="text-center">
+				<i class="fas fa-edit"></i> Modification
+			</h5>
+		</c:if>
+		<c:if test="${employe.idEmploye == null}">
+			<h5 class="text-center">
+				<i class="fas fa-external-link-alt"></i> Ajout
+			</h5>
+		</c:if>
 
 		<form:form method="POST" modelAttribute="employe">
 			<div class="form-group">
 				<form:input path="idEmploye" type="hidden" />
 				<form:label path="nomEmploye">Nom Employe: </form:label>
-				<form:input type="text" class="form-control" path="nomEmploye"
+				<form:input type="text" class="form-control" path="nomEmploye" required="true"
 					placeholder="Saisir le nom d'employe..." />
 			</div>
 			<button type="submit" class="btn btn-primary">

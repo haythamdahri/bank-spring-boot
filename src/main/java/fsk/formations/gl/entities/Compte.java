@@ -95,5 +95,20 @@ public class Compte implements Serializable {
 	public void setEmploye(Employe employe) {
 		this.employe = employe;
 	}
+	
+	public void retrait(double montant) {
+		this.solde -= montant;
+	}
+	
+	public void versement(double montant) {
+		this.solde += montant;
+	}
+
+	@Override
+	public String toString() {
+		return "Num compte: " + this.numCompte + " | Date de création: " + this.dateCreation + " | Solde: " + this.solde + " Dh";
+	}
+	
+	
 
 }

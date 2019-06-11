@@ -18,6 +18,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 @Entity
 @Table(name="operations")
 @Inheritance(strategy=InheritanceType.SINGLE_TABLE)
@@ -30,6 +32,7 @@ public class Operation implements Serializable{
 	@Column(name="num")
 	private Long numOperation;
 	
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	@Column(name="date_operation")
 	@Temporal(TemporalType.DATE)
 	private Date dateOperation;
@@ -47,9 +50,11 @@ public class Operation implements Serializable{
 	
 	public Operation() {}
 
-	public Operation(Date dateOperation, double montant) {
+	public Operation(Date dateOperation, double montant, Employe employe, Compte compte) {
 		this.dateOperation = dateOperation;
 		this.montant = montant;
+		this.employe = employe;
+		this.compte = compte;
 	}
 
 	public Compte getCompte() {
@@ -92,6 +97,8 @@ public class Operation implements Serializable{
 	public void setMontant(double montant) {
 		this.montant = montant;
 	}
+	
+	
 	
 	
 	
